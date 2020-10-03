@@ -1,20 +1,31 @@
-﻿using System.Collections;
+﻿using StuckInALoop.Player;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class CellBase : MonoBehaviour, ICell
+namespace StuckInALoop.Cell
 {
-    [SerializeField] private Transform _transform;
-
-    protected Vector3 _position;
-    protected bool _blocking;
-
-    public CellBase()
+    public abstract class CellBase : MonoBehaviour, ICell
     {
-        _position = _transform.localPosition;
+        protected bool _blocking;
+        protected bool _actioned;
+
+        public CellBase()
+        {
+            _blocking = false;
+        }
+
+        public Vector3Int Coordinate { get; set; }
+
+        public bool IsBlocking => _blocking;
+
+        public CellsController CellsController { set { } }
+        public CharacterBase ContainedCharacter { get; set; }
+
+
+        public virtual void Action()
+        {
+            ContainedCharacter = null;
+        }
     }
-
-    public bool IsBlocking => _blocking;
-
-    public Vector3 Position => _position;
 }

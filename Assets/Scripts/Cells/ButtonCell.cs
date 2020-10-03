@@ -1,18 +1,37 @@
-﻿using System.Collections;
+﻿using StuckInALoop.Player;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ButtonCell : MonoBehaviour
+namespace StuckInALoop.Cell
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ButtonCell : CellBase
     {
-        
-    }
+        [SerializeField] private DoorCell[] _doors;
+        [SerializeField] private StartCell _startCell;
+        public ButtonCell()
+        {
+        }
+        public override void Action( )
+        {
+            if (!ContainedCharacter)
+            {
+                OpenDoors(false);
+                return;
+            }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            ContainedCharacter.Clone(_startCell);
+            OpenDoors(true);
+
+            base.Action();
+        }
+
+        private void OpenDoors(bool open)
+        {
+            foreach(DoorCell doorCell in _doors)
+            {
+                doorCell.Open(open);
+            }
+        }
     }
 }

@@ -1,18 +1,33 @@
-﻿using System.Collections;
+﻿using StuckInALoop.Player;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorCell : MonoBehaviour
+namespace StuckInALoop.Cell
 {
-    // Start is called before the first frame update
-    void Start()
+    public class DoorCell : CellBase
     {
-        
-    }
+        [SerializeField] private GameObject _laser;
+        private bool _isOpen;
+        public DoorCell()
+        {
+            _isOpen = false;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void Open(bool open)
+        {
+            _isOpen = open;
+            _laser.SetActive(!open);
+        }
+
+        public override void Action( )
+        {
+            if (ContainedCharacter && !_isOpen)
+            {
+                    ContainedCharacter.Die();
+            }
+
+            base.Action();
+        }
     }
 }

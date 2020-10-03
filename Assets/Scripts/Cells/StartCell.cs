@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace StuckInALoop.Cell
 {
-    public class EmptyCell : CellBase
+    public class StartCell : CellBase
     {
-        public EmptyCell()
-        { 
+        public StartCell()
+        {
         }
     }
 }

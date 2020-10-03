@@ -1,9 +1,17 @@
-﻿using System.Collections;
+﻿using StuckInALoop.Player;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICell
+namespace StuckInALoop.Cell
 {
-    bool IsBlocking { get; }
-    Vector3 Position { get; }
+    public interface ICell
+    {
+        Vector3Int Coordinate { get; set; }
+        CellsController CellsController { set; }
+        bool IsBlocking { get; }
+        CharacterBase ContainedCharacter { get; set; }
+
+        void Action();
+    }
 }
