@@ -25,9 +25,45 @@ namespace StuckInALoop.Player
 
         public void NextStep()
         {
-            foreach(CloneHandler clone in _clones)
+            ClonesMovement();
+            ClonesConflict();
+        }
+
+        private void ClonesMovement()
+        {
+            foreach (CloneHandler clone in _clones)
             {
                 clone.NextMovement();
+            }
+        }
+
+        private void ClonesConflict()
+        {
+            Queue<CloneHandler> _clonesToDestroy = new Queue<CloneHandler>();
+            foreach (CloneHandler clone in _clones)
+            {
+                foreach (CloneHandler otherClone in _clones)
+                {
+                    if (clone == otherClone) continue;
+
+                    if(clone.CurrentCoordinate == otherClone.CurrentCoordinate)
+                    {
+                        if (!_clonesToDestroy.Contains(clone))
+                        {
+                            _clonesToDestroy.Enqueue(clone);
+                        }
+                        if (!_clonesToDestroy.Contains(otherClone))
+                        {
+                            _clonesToDestroy.Enqueue(clone);
+                        }
+                    }
+                }
+            }
+
+            foreach(CloneHandler clone in _clonesToDestroy)
+            {
+                clone.Die();
+                _clones.Remove(clone);
             }
         }
 

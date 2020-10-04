@@ -7,40 +7,43 @@ namespace StuckInALoop.Cell
 {
     public class ButtonCell : CellBase
     {
-        [SerializeField] private DoorCell[] _doors;
+        private const string CONNECTION_ANIMATOR = "Connection";
 
-        private bool IsPressed = false;
+        [SerializeField] private CellBase[] _connectedCells;
+        [SerializeField] private Animator _animator;
+
         public ButtonCell()
         {
         }
 
         public override void Action( )
         {
-            if (!ContainedCharacter)
+            if(!_isActive)
             {
-                OpenDoors(false);
-                IsPressed = false;
+                ActivateCells(false);
+                base.Action();
                 return;
             }
 
-            //if (IsPressed)
-            //{
-            //    IsPressed = false;
-            //    return;
-            //}
-            //IsPressed = true;
+            if (!ContainedCharacter)
+            {
+                ActivateCells(false);
+                return;
+            }
 
             ContainedCharacter.Clone();
-            OpenDoors(true);
+            ActivateCells(true);
 
             base.Action();
         }
 
-        private void OpenDoors(bool open)
+        private void ActivateCells(bool activate)
         {
-            foreach(DoorCell doorCell in _doors)
+            _animator.SetBool(CONNECTION_ANIMATOR, activate);
+
+            foreach (CellBase cell in _connectedCells)
             {
-                doorCell.Open(open);
+                cell.Activate(activate);
             }
         }
     }

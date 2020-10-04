@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6925422371660243032}
   - component: {fileID: 2070193608486141509}
+  - component: {fileID: 7879276232172896147}
   m_Layer: 0
   m_Name: BlockCell
   m_TagString: Untagged
@@ -45,6 +46,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ec38b0db397f8468b3fffccf069849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fader: {fileID: 7879276232172896147}
+  _petrifyElements: []
+  _petrifyMaterial: {fileID: 0}
+--- !u!114 &7879276232172896147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2457865657230247514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6829c4ec4aac8a24c83abd0909b3c040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _meshRenderers:
+  - {fileID: 856613160081678885}
+  - {fileID: 970675168705443941}
 --- !u!1 &6544385946883061690
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,5 +205,10 @@ PrefabInstance:
 --- !u!4 &6333432387343062804 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8871491721679108000, guid: 9945450404e191c498453cd338ef2987, type: 3}
+  m_PrefabInstance: {fileID: 3240623077377826996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &856613160081678885 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2817648791088136849, guid: 9945450404e191c498453cd338ef2987, type: 3}
   m_PrefabInstance: {fileID: 3240623077377826996}
   m_PrefabAsset: {fileID: 0}

@@ -26,6 +26,12 @@ namespace StuckInALoop.Player
         }
 
         public abstract void Clone();
-        public abstract void Teleport(StartCell startCell);
+        public abstract void Teleport(Vector3Int cellCoordinate);
+
+        public virtual void Reset()
+        {
+
+        }
+
     }
 }

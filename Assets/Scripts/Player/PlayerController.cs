@@ -31,10 +31,10 @@ namespace StuckInALoop.Player
         {
             if (!CellsController.CanMove(CurrentCoordinate + coord)) return;
 
+            _clonesController.NextStep();
             CurrentCoordinate += coord;
             _characterMovement.MoveToPosition(CurrentCoordinate, MovementFinished);
             Movements.Add(CurrentCoordinate);
-            _clonesController.NextStep();
         }
 
         public override void MovementFinished()
@@ -52,9 +52,10 @@ namespace StuckInALoop.Player
             _clonesController.AddClone(this);
         }
 
-        public override void Teleport(StartCell startCell)
+        public override void Teleport(Vector3Int cellCoordinate)
         {
-            CurrentCoordinate = startCell.Coordinate;
+            CurrentCoordinate = cellCoordinate;
+            _characterMovement.Reset();
             _characterMovement.MoveToPosition(CurrentCoordinate, Reset);
         }
 
@@ -64,7 +65,7 @@ namespace StuckInALoop.Player
             _characterMovement.MoveToPosition(Movements[0], Reset);
         }
 
-        public void Reset()
+        public override void Reset()
         {
             Movements.Clear();
             Movements.Add(CurrentCoordinate);

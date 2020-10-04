@@ -37,9 +37,30 @@ namespace StuckInALoop.Cell
 
         public void CellsActions()
         {
-            foreach(CellBase cell in _cells.Values)
+            foreach (CellBase cell in _cells.Values)
             {
                 cell.Action();
+            }
+        }
+
+        public void FadeInAppearence()
+        {
+            foreach(CellBase cell in _cells.Values)
+            {
+                cell.FadeInAappearence();
+            }
+        }
+
+        public void Exclude(CellBase cell)
+        {
+            _cells.Remove(cell.Coordinate);
+        }
+
+        public void Petrify()
+        {
+            foreach (CellBase cell in _cells.Values)
+            {
+                cell.Petrify();
             }
         }
     }
