@@ -7,7 +7,7 @@ namespace StuckInALoop.Player
 {
     public abstract class CharacterBase : MonoBehaviour
     {
-        protected PlayerMovement _playerMovement;
+        protected CharacterMovement _characterMovement;
 
         public Vector3Int CurrentCoordinate { get; protected set; }
 
@@ -25,6 +25,7 @@ namespace StuckInALoop.Player
 
         }
 
-        public abstract void Clone(StartCell startCell);
+        public abstract void Clone();
+        public abstract void Teleport(StartCell startCell);
     }
 }

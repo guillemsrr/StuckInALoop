@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace StuckInALoop.Cell
 {
-    public class StartCell : CellBase
+    public class EndCell : CellBase
     {
-        public StartCell()
+        public EndCell()
         {
         }
 
@@ -15,7 +15,7 @@ namespace StuckInALoop.Cell
         {
             if (!ContainedCharacter) return;
 
-            ContainedCharacter.Teleport(this);
+            LevelHandler.EndLevel();
             base.Action();
         }
     }

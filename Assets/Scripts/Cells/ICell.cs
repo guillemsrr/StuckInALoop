@@ -1,4 +1,5 @@
-﻿using StuckInALoop.Player;
+﻿using StuckInALoop.Levels;
+using StuckInALoop.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace StuckInALoop.Cell
     public interface ICell
     {
         Vector3Int Coordinate { get; set; }
-        CellsController CellsController { set; }
+        LevelHandler LevelHandler{ get;  set; }
         bool IsBlocking { get; }
         CharacterBase ContainedCharacter { get; set; }
 

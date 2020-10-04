@@ -7,17 +7,19 @@ namespace StuckInALoop.Player
 {
     public class ClonesController: MonoBehaviour
     {
-        [SerializeField] private CellsController _cellsController;
         [SerializeField] private GameObject _cloneModel;
         [SerializeField] private Transform _clonesContainer;
         
         private List<CloneHandler> _clones = new List<CloneHandler>();
 
+        public CellsController CellsController { get; set; }
+
+
         public void AddClone(CharacterBase player)
         {
             GameObject cloneObject = Instantiate(_cloneModel, player.CurrentCoordinate, Quaternion.identity, _clonesContainer);
             CloneHandler clone = cloneObject.GetComponent<CloneHandler>();
-            clone.Initialize(_cellsController, player.Movements.ToArray());
+            clone.Initialize(CellsController, player.Movements.ToArray());
             _clones.Add(clone);
         }
 
@@ -49,7 +51,7 @@ namespace StuckInALoop.Player
         {
             foreach (CloneHandler clone in _clones)
             {
-                _cellsController.CellAction(clone);
+                CellsController.CellAction(clone);
             }
         }
     }

@@ -8,6 +8,9 @@ namespace StuckInALoop.Cell
     public class DoorCell : CellBase
     {
         [SerializeField] private GameObject _laser;
+        [SerializeField] private StartCell _startCell;
+
+
         private bool _isOpen;
         public DoorCell()
         {
@@ -24,7 +27,7 @@ namespace StuckInALoop.Cell
         {
             if (ContainedCharacter && !_isOpen)
             {
-                    ContainedCharacter.Die();
+                ContainedCharacter.Teleport(_startCell);
             }
 
             base.Action();

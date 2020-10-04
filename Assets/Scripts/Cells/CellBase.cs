@@ -1,4 +1,5 @@
-﻿using StuckInALoop.Player;
+﻿using StuckInALoop.Levels;
+using StuckInALoop.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,6 @@ namespace StuckInALoop.Cell
     public abstract class CellBase : MonoBehaviour, ICell
     {
         protected bool _blocking;
-        protected bool _actioned;
 
         public CellBase()
         {
@@ -19,7 +19,7 @@ namespace StuckInALoop.Cell
 
         public bool IsBlocking => _blocking;
 
-        public CellsController CellsController { set { } }
+        public LevelHandler LevelHandler { get; set; }
         public CharacterBase ContainedCharacter { get; set; }
 
 

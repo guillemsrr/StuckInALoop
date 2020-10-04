@@ -6,25 +6,18 @@ using StuckInALoop.Utils;
 
 namespace StuckInALoop.Cell
 {
-    public class CellsController : MonoBehaviour
+    public class CellsController
     {
-        [SerializeField] private Transform _cellsContainer;
+        private Dictionary<Vector3Int, CellBase> _cells;
 
-        private Dictionary<Vector3Int, CellBase> _cells = new Dictionary<Vector3Int, CellBase>();
-
-        private void Start()
+        public CellsController()
         {
-            CacheCells();
+            _cells = new Dictionary<Vector3Int, CellBase>();
         }
 
-        private void CacheCells()
+        public void AddCell(CellBase cell)
         {
-            foreach (Transform cellChild in _cellsContainer)
-            {
-                CellBase cell = cellChild.gameObject.GetComponent<CellBase>();
-                _cells[Utils.Utils.GetCoordinate(cellChild.localPosition)] = cell;
-                cell.CellsController = this;
-            }
+            _cells[cell.Coordinate] = cell;
         }
 
         public bool CanMove(Vector3Int coord)
@@ -36,6 +29,8 @@ namespace StuckInALoop.Cell
 
         public void CellAction(CharacterBase character)
         {
+            if (!_cells.ContainsKey(character.CurrentCoordinate)) return;
+
             CellBase cell = _cells[character.CurrentCoordinate];
             cell.ContainedCharacter = character;
         }

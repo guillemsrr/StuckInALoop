@@ -8,62 +8,67 @@ namespace StuckInALoop.Player
 {
     public class PlayerController : CharacterBase
     {
-        [SerializeField] private CellsController _cellsController;
+        private const float MOVE_SPEED = 10f;
+
         [SerializeField] private ClonesController _clonesController;
+        
+        public CellsController CellsController { get;  set; }
 
-
-        private void Awake()
-        {
-        }
 
         private void Start()
         {
-            _playerMovement = new PlayerMovement(this, transform);
+            _characterMovement = new CharacterMovement(this, transform, MOVE_SPEED);
             CurrentCoordinate = Vector3Int.zero;
-            Movements.Add(transform.localPosition);
+            Movements.Add(transform.position);
         }
 
         private void Update()
         {
-            _playerMovement.DetectPlayerMovementInput();
+            _characterMovement.DetectPlayerMovementInput();
         }
 
         public override void TryMovement(Vector3Int coord)
         {
-            if (!_cellsController.CanMove(CurrentCoordinate + coord)) return;
+            if (!CellsController.CanMove(CurrentCoordinate + coord)) return;
 
             CurrentCoordinate += coord;
-            _playerMovement.MoveToPosition(CurrentCoordinate, MovementFinished);
+            _characterMovement.MoveToPosition(CurrentCoordinate, MovementFinished);
             Movements.Add(CurrentCoordinate);
             _clonesController.NextStep();
         }
 
         public override void MovementFinished()
         {
-            //_clonesController.DetectPlayerConflict(this);
-            _clonesController.CellCloneActions();
-            _cellsController.CellAction(this);
-            _cellsController.CellsActions();
+            if (!_clonesController.DetectPlayerConflict(this))
+            {
+                CellsController.CellAction(this);
+                _clonesController.CellCloneActions();
+            }
+            CellsController.CellsActions();
         }
 
-        public override void Clone(StartCell startCell)
+        public override void Clone()
+        {
+            _clonesController.AddClone(this);
+        }
+
+        public override void Teleport(StartCell startCell)
         {
             CurrentCoordinate = startCell.Coordinate;
-            _playerMovement.MoveToPosition(CurrentCoordinate);
-            _clonesController.AddClone(this);
-            Reset();
+            _characterMovement.MoveToPosition(CurrentCoordinate, Reset);
         }
 
         public override void Die()
         {
-            _playerMovement.MoveToPosition(Movements[0], Reset);
+            CurrentCoordinate = Utils.Utils.GetCoordinate(Movements[0]);
+            _characterMovement.MoveToPosition(Movements[0], Reset);
         }
 
-        private void Reset()
+        public void Reset()
         {
-            CurrentCoordinate = Utils.Utils.GetCoordinate(Movements[0]);
             Movements.Clear();
             Movements.Add(CurrentCoordinate);
+            _characterMovement.Reset();
         }
     }
 }

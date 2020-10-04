@@ -7,16 +7,19 @@ namespace StuckInALoop.Player
 {
     public class CloneHandler : CharacterBase
     {
+        private const float MOVE_SPEED = 12f;
+
+
         private CellsController _cellsController;
-        private PlayerMovement _characterMovement;
-        private int _currentMovementStep = 0;
+        private int _currentMovementStep = -1;
         private Vector3[] _movements;
 
         public void Initialize(CellsController cellsController, Vector3[] movements)
         {
             _cellsController = cellsController;
             _movements = movements;
-            _characterMovement = new PlayerMovement(this, transform);
+            _characterMovement = new CharacterMovement(this, transform, MOVE_SPEED);
+            NextMovement();
         }
 
         public void NextMovement()
@@ -38,12 +41,18 @@ namespace StuckInALoop.Player
 
         public override void Die()
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
 
-        public override void Clone(StartCell startCell)
+        public override void Clone()
         {
             NextMovement();
+        }
+
+        public override void Teleport(StartCell startCell)
+        {
+            CurrentCoordinate = startCell.Coordinate;
+            _characterMovement.MoveToPosition(CurrentCoordinate);
         }
     }
 }
