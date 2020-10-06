@@ -19,7 +19,7 @@ namespace StuckInALoop.Player
         {
             GameObject cloneObject = Instantiate(_cloneModel, player.CurrentCoordinate, Quaternion.identity, _clonesContainer);
             CloneHandler clone = cloneObject.GetComponent<CloneHandler>();
-            clone.Initialize(CellsController, player.Movements.ToArray());
+            clone.Initialize(player.Movements.ToArray());
             _clones.Add(clone);
         }
 
@@ -62,7 +62,7 @@ namespace StuckInALoop.Player
 
             foreach(CloneHandler clone in _clonesToDestroy)
             {
-                clone.Die();
+                StartCoroutine(clone.DieAfter());
                 _clones.Remove(clone);
             }
         }

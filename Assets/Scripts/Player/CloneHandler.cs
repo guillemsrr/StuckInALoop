@@ -13,12 +13,13 @@ namespace StuckInALoop.Player
         private int _currentMovementStep = -1;
         private Vector3[] _movements;
         private bool _cloned = false;
-
-        public void Initialize(CellsController cellsController, Vector3[] movements)
+        private int _numberMovements;
+        public void Initialize(Vector3[] movements)
         {
             _movements = movements;
             _characterMovement = new CharacterMovement(this, transform, MOVE_SPEED);
             NextMovement();
+            _numberMovements = movements.Length - 1;
         }
 
         public void NextMovement()
@@ -50,14 +51,16 @@ namespace StuckInALoop.Player
             Destroy(gameObject);
         }
 
-        private IEnumerator DieAfter()
+        public IEnumerator DieAfter()
         {
             yield return new WaitForSeconds(0.5f);
+            Die();
         }
 
         public override void Clone()
         {
-            _cloned = true;
+            if(_currentMovementStep == _numberMovements)
+                _cloned = true;
         }
 
         public override void Teleport(Vector3Int cellCoordinate)
